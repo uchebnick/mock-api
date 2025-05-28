@@ -27,11 +27,11 @@ class PromptsConfig(BaseModel):
     text_storage: TextStoragePromptConfig
 
 
-class Config(BaseModel):
+class AppConfig(BaseModel):
     prompts: PromptsConfig
 
     @classmethod
-    def load_config(cls, config_path: str = "app/config/config.yaml") -> "Config":
+    def load_config(cls, config_path: str = "app/configs/app_config.yaml") -> "AppConfig":
         config_path = Path(config_path)
         if not config_path.exists():
             raise FileNotFoundError(f"Config file not found: {config_path}")
@@ -56,19 +56,24 @@ class Config(BaseModel):
     @property
     def use_text_storage(self) -> bool:
         return self.prompts.text_storage.enabled
+    
+    @property
+    def enabled_commands(self):
+        from app.ai_manager.tool_interfaces import DBInterface, TerminalInterface, TextStorageInterface
+        commands = {}
+        if self.use_db:
+            commands["/db"] = DBInterface
+        if self.use_terminal:
+            commands["/terminal"] = TerminalInterface
+        if self.use_text_storage:
+            commands["/text_storage"] = TextStorageInterface
+        return commands
 
 
-class AIConfig:
-    def __init__(self, ai_type: str, token: str = "", base_url: str = "", model: str = ""):
-        self.ai_type = ai_type  # 'ollama', 'chatgpt', 'gemini', 'claude'
-        self.token = token
-        self.base_url = base_url
-        self.model = model
+_app_config_instance: Optional[AppConfig] = None
 
-# Пример конфигурации (замените на свои значения)
-config = AIConfig(
-    ai_type='chatgpt',
-    token='sk-...ваш_токен...',
-    base_url='https://api.openai.com/v1',
-    model='gpt-3.5-turbo'
-)
+def get_app_config(config_path: str = "app/config/app_config.yaml") -> AppConfig:
+    global _app_config_instance
+    if _app_config_instance is None:
+        _app_config_instance = AppConfig.load_config(config_path)
+    return _app_config_instance

@@ -16,5 +16,13 @@ class TextStorageInterface:
             return []
 
     def clear(self) -> None:
-        """Очищает файл хранения текста."""
         open(self.file_path, 'w', encoding='utf-8').close()
+
+    def get_commands(self):
+        commands = {
+            "add_text": self.add_text,
+            "get_texts": self.get_texts,
+            "clear": self.clear
+        }
+        return commands
+

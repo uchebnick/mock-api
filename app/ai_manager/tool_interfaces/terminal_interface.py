@@ -11,3 +11,9 @@ class TerminalInterface:
             return result.stdout, result.stderr
         except Exception as e:
             return "", f"Terminal error: {e}"
+
+    def get_commands(self):
+        commands = {
+            "execute_command": self.execute_command
+        }
+        return commands

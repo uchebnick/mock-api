@@ -1,9 +1,14 @@
-import requests
+import logging
 from abc import ABC, abstractmethod
-from app.config.ai_config import AIConfig
+from fastapi import Depends
+from app.config.ai_config import get_ai_config, AIConfig
+
+logger = logging.getLogger("ai_manager.ai_client")
 
 class AIBaseClient(ABC):
-    def __init__(self, config: AIConfig):
+    def __init__(self, config: AIConfig = None):
+        if config is None:
+            config = get_ai_config()
         self.config = config
 
     @abstractmethod
@@ -11,53 +16,56 @@ class AIBaseClient(ABC):
         pass
 
 class ChatGPTClient(AIBaseClient):
+    def __init__(self, config: AIConfig = None):
+        super().__init__(config)
+        import openai
+        openai.api_key = self.config.token
+        self.client = openai
+
     def send_message(self, message: str) -> str:
-        headers = {
-            "Authorization": f"Bearer {self.config.token}",
-            "Content-Type": "application/json"
-        }
-        data = {
-            "model": self.config.model or "gpt-3.5-turbo",
-            "messages": [{"role": "user", "content": message}]
-        }
-        response = requests.post(f"{self.config.base_url}/chat/completions", headers=headers, json=data)
-        response.raise_for_status()
-        return response.json()["choices"][0]["message"]["content"]
+        response = self.client.ChatCompletion.create(
+            model=self.config.model,
+            messages=[{"role": "user", "content": message}]
+        )
+        return response.choices[0].message.content
 
 class OllamaClient(AIBaseClient):
+    def __init__(self, config: AIConfig = None):
+        super().__init__(config)
+        import ollama
+        self.client = ollama
+
     def send_message(self, message: str) -> str:
-        data = {"model": self.config.model or "llama2", "prompt": message}
-        response = requests.post(f"{self.config.base_url}/api/generate", json=data)
-        response.raise_for_status()
-        return response.json()["response"]
+        response = self.client.chat(
+            model=self.config.model,
+            messages=[{"role": "user", "content": message}]
+        )
+        return response['message']['content']
 
 class GeminiClient(AIBaseClient):
+    def __init__(self, config: AIConfig = None):
+        super().__init__(config)
+        import google.generativeai as genai
+        genai.configure(api_key=self.config.token)
+        self.client = genai.GenerativeModel(self.config.model)
+
     def send_message(self, message: str) -> str:
-        headers = {
-            "Authorization": f"Bearer {self.config.token}",
-            "Content-Type": "application/json"
-        }
-        data = {
-            "model": self.config.model or "gemini-pro",
-            "messages": [{"role": "user", "content": message}]
-        }
-        response = requests.post(f"{self.config.base_url}/v1/chat/completions", headers=headers, json=data)
-        response.raise_for_status()
-        return response.json()["choices"][0]["message"]["content"]
+        response = self.client.generate_content(message)
+        return response.text
 
 class ClaudeClient(AIBaseClient):
+    def __init__(self, config: AIConfig = None):
+        super().__init__(config)
+        import anthropic
+        self.client = anthropic.Anthropic(api_key=self.config.token)
+
     def send_message(self, message: str) -> str:
-        headers = {
-            "Authorization": f"Bearer {self.config.token}",
-            "Content-Type": "application/json"
-        }
-        data = {
-            "model": self.config.model or "claude-3-opus-20240229",
-            "messages": [{"role": "user", "content": message}]
-        }
-        response = requests.post(f"{self.config.base_url}/v1/messages", headers=headers, json=data)
-        response.raise_for_status()
-        return response.json()["choices"][0]["message"]["content"]
+        response = self.client.messages.create(
+            model=self.config.model,
+            max_tokens=1024,
+            messages=[{"role": "user", "content": message}]
+        )
+        return response.content[0].text
 
 CLIENTS = {
     "chatgpt": ChatGPTClient,
@@ -66,18 +74,12 @@ CLIENTS = {
     "claude": ClaudeClient,
 }
 
-def get_ai_client(config: AIConfig) -> AIBaseClient:
+def get_ai_client(config: AIConfig = Depends(get_ai_config)) -> AIBaseClient:
     client_class = CLIENTS.get(config.ai_type)
     if not client_class:
+        logger.critical(f"Unknown AI type: {config.ai_type}")
         raise ValueError(f"Unknown AI type: {config.ai_type}")
     return client_class(config)
 
-def ai_send_message(message: str, config: AIConfig) -> str:
-    client = get_ai_client(config)
+def ai_send_message(message: str, client: AIBaseClient = Depends(get_ai_client)) -> str:
     return client.send_message(message)
-
-# # Пример использования
-# if __name__ == "__main__":
-#     client = LLMClient()
-#     response = client.generate("Как создать нейросеть?")
-#     print(response)
