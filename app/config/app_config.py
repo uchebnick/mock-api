@@ -40,6 +40,10 @@ class AppConfig(BaseModel):
             config_data = yaml.safe_load(f)
 
         return cls(**config_data)
+    
+    @property
+    def max_steps(self) -> int:
+        return self.prompts.system.max_steps
 
     @property
     def use_system_prompt(self) -> bool:
