@@ -1,24 +1,28 @@
+from fastapi import Depends
+from app.config.app_config import get_app_config, Config
+from app.config.ai_config import get_ai_config, AIConfig
 from .prompt_composer import PromptComposer
-from app.config.app_config import config
 
 class InitPrompt:
-    def __init__(self, user_docs: str = "'hello world' server", max_steps: int = 5):
+    def __init__(self, app_config: Config = Depends(get_app_config), ai_config: AIConfig = Depends(get_ai_config), user_docs: str = "'hello world' server", max_steps: int = 5):
 
+        self.app_config = app_config
+        self.ai_config = ai_config
         self.user_docs = user_docs
         self.max_steps = max_steps
 
         component_paths = ["app/prompts/sys_prompt.md"]
-        if config.use_terminal():
+        if self.app_config.use_terminal():
             component_paths.append("app/prompts/terminal_prompt.md")
-        if config.use_db():
+        if self.app_config.use_db():
             component_paths.append("app/prompts/db_prompt.md")
-        if config.use_text_storage():
+        if self.app_config.use_text_storage():
             component_paths.append("app/prompts/text_storage_prompt.md")
         component_paths.append("app/prompts/init_prompt.md")
 
         context = {
-            "user_docs": user_docs,
-            "max_steps": max_steps
+            "user_docs": self.user_docs,
+            "max_steps": self.max_steps
         }
 
         self.composer = PromptComposer(component_paths, context)

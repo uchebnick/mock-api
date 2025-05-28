@@ -12,7 +12,6 @@ class DBInterface:
                 cursor.execute(query, params)
                 if query.strip().lower().startswith("select"):
                     rows = cursor.fetchall()
-                    # Форматируем результат в текст
                     result = '\n'.join([str(row) for row in rows])
                 else:
                     conn.commit()
@@ -20,4 +19,11 @@ class DBInterface:
                 return result
         except Exception as e:
             return f"DB error: {e}"
+
+    def get_commands(self):
+        commands = {
+            "execute_query": self.execute_query
+        }
+        return commands
+
 
