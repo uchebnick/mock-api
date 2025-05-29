@@ -42,7 +42,7 @@ class RequestSession(BaseSession):
         })
 
         response = self._get_response(ans)
-        max_steps = self.app_config.max_steps()
+        max_steps = self.app_config.max_steps
         current_step = 1
 
         while current_step <= max_steps:

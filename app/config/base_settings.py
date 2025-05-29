@@ -7,6 +7,7 @@ class BaseAppSettings(BaseSettings):
         env_file = ".env"
         env_file_encoding = "utf-8"
         case_sensitive = True
+        extra = "allow"
 
 
 @lru_cache()

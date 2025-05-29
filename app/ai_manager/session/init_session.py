@@ -50,7 +50,7 @@ class InitSession(BaseSession):
 
         docs = self._get_docs(ans)
         openapi = self._get_openapi(ans)
-        max_steps = self.app_config.max_steps()
+        max_steps = self.app_config.max_steps
         c = 1
         while not (docs or openapi) and c <= max_steps:
             c += 1

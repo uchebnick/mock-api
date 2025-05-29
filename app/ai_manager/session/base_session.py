@@ -25,14 +25,14 @@ class BaseSession:
             "content": ans
         })
 
-        max_steps = self.app_config.max_steps()
+        max_steps = self.app_config.max_steps
         c = 1
         while c <= max_steps:
             c += 1
             ai_msg = self._next_gen()
 
     def _handle_commands_from_message(self, msg: str):
-        commands = self.app_config.enabled_commands()
+        commands = self.app_config.enabled_commands
         results = []
         
         # /interface.func %|param|% or /interface.func

@@ -7,7 +7,7 @@ from typing import Optional
 
 class AIService:
     def __init__(self, user_docs: str, app_config: AppConfig):
-        max_steps = app_config.max_steps()
+        max_steps = app_config.max_steps
         docs, openapi = InitSession(user_docs, max_steps=max_steps).start()
 
         self.docs = docs
