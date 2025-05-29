@@ -1,8 +1,9 @@
 from ..utils import prompt_utils
 from typing import List, Dict
 import logging
+from functools import lru_cache
 
-logger = logging.getLogger("ai_manager.prompts.composer")
+logger = logging.getLogger("ai_manager.docs.composer")
 
 class PromptComposer:
     def __init__(self, component_paths: List[str], context: Dict):
@@ -10,6 +11,7 @@ class PromptComposer:
         self.context = context
         self.templates = self._load_templates()
 
+    @lru_cache
     def _load_templates(self) -> List[str]:
         templates = []
         for path in self.component_paths:

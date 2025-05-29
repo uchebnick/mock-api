@@ -1,46 +1,38 @@
-from pathlib import Path
 from typing import Optional
-import yaml
 from pydantic import BaseModel
+from .base_settings import BaseAppSettings
+from functools import lru_cache
 
 
 class SystemPromptConfig(BaseModel):
-    max_steps: int
+    max_steps: int = 10
 
 
 class TerminalPromptConfig(BaseModel):
-    enabled: bool
+    enabled: bool = False
 
 
 class DBPromptConfig(BaseModel):
-    enabled: bool
+    enabled: bool = False
 
 
 class TextStoragePromptConfig(BaseModel):
-    enabled: bool
+    enabled: bool = False
 
 
 class PromptsConfig(BaseModel):
-    system: SystemPromptConfig
-    terminal: TerminalPromptConfig
-    db: DBPromptConfig
-    text_storage: TextStoragePromptConfig
+    system: SystemPromptConfig = SystemPromptConfig()
+    terminal: TerminalPromptConfig = TerminalPromptConfig()
+    db: DBPromptConfig = DBPromptConfig()
+    text_storage: TextStoragePromptConfig = TextStoragePromptConfig()
 
 
-class AppConfig(BaseModel):
-    prompts: PromptsConfig
-
-    @classmethod
-    def load_config(cls, config_path: str = "app/configs/app_config.yaml") -> "AppConfig":
-        config_path = Path(config_path)
-        if not config_path.exists():
-            raise FileNotFoundError(f"Config file not found: {config_path}")
-
-        with open(config_path, 'r', encoding='utf-8') as f:
-            config_data = yaml.safe_load(f)
-
-        return cls(**config_data)
+class AppConfig(BaseAppSettings):
+    prompts: PromptsConfig = PromptsConfig()
     
+    class Config:
+        env_prefix = "APP_"
+
     @property
     def max_steps(self) -> int:
         return self.prompts.system.max_steps
@@ -74,10 +66,6 @@ class AppConfig(BaseModel):
         return commands
 
 
-_app_config_instance: Optional[AppConfig] = None
-
-def get_app_config(config_path: str = "app/config/app_config.yaml") -> AppConfig:
-    global _app_config_instance
-    if _app_config_instance is None:
-        _app_config_instance = AppConfig.load_config(config_path)
-    return _app_config_instance
+@lru_cache()
+def get_app_config() -> AppConfig:
+    return AppConfig()

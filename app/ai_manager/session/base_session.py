@@ -1,22 +1,17 @@
-from fastapi import Request
-from .utils import utils
-from .prompts import SessionPrompt
 from fastapi import Depends
-from ai_client import AIBaseClient, get_ai_client
-from ..config.app_config import AppConfig, get_app_config
+from .ai_client import AIBaseClient, get_ai_client
+from ...config.app_config import AppConfig, get_app_config
 import logging
 import re
 
 logger = logging.getLogger("ai_manager.session")
 
-class Session:
-    def __init__(self, request: Request, llm_client: AIBaseClient = Depends(get_ai_client), app_config: AppConfig = Depends(get_app_config)):
+class BaseSession:
+    def __init__(self, init_session_prompt: str, llm_client: AIBaseClient = Depends(get_ai_client), app_config: AppConfig = Depends(get_app_config)):
         self.context = []
         self.llm_client = llm_client
         self.app_config = app_config
-
-        str_request = utils.convert_request_to_text(request)
-        self.init_session_prompt = SessionPrompt(str_request).get_prompt()
+        self.init_session_prompt = init_session_prompt
 
     def start(self) -> None:
         message = self.init_session_prompt
@@ -30,15 +25,11 @@ class Session:
             "content": ans
         })
 
-        response = self._get_response(ans)
         max_steps = self.app_config.max_steps()
         c = 1
-        while not response and c <= max_steps:
+        while c <= max_steps:
             c += 1
             ai_msg = self._next_gen()
-            response = self._get_response(ai_msg)
-
-        return response
 
     def _handle_commands_from_message(self, msg: str):
         commands = self.app_config.enabled_commands()
@@ -77,15 +68,6 @@ class Session:
     def _get_str_context(self) -> str:
         return "\n\n".join([f"{msg['role']}: {msg['content']}" for msg in self.context])
     
-
-    def _get_response(self, msg: str) -> str | None:
-        match = re.search(r'/response %\|(.*?)\|%', msg, re.DOTALL)
-        
-        if match:
-            return match.group(1).strip()
-        return None
-
-
     def _next_gen(self):
         ai_message = self.context[-1]["content"]
         command_results = self._handle_commands_from_message(ai_message)
@@ -103,8 +85,3 @@ class Session:
             "content": ans
         })
         return ans
-
-
-
-
-
