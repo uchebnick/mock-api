@@ -1,2 +1,2 @@
 from .init_prompt import InitPrompt
-from .session_prompt import SessionPrompt
+from .request_prompt import RequestPrompt
