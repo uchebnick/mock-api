@@ -1,4 +1,3 @@
-```markdown
 **Task:** Process the HTTP request and return a response according to:
 1. *OpenAPI 3.0 YAML docs* - ```%|openapi|%```
 2. *Markdown docs* - ```%|docs|%```
@@ -25,4 +24,3 @@
 ===
 %|request|%
 ===
-```
