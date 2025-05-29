@@ -15,10 +15,10 @@
 ✓ Call commands from list  
 ✓ Return responses in strict format  
 
-### RESPONSE FORMAT FOR ALL REQUESTS (COMMAND PARAMETER MUST BE IN <>):
---- EXECUTE ---
-/command1 <{
+### RESPONSE FORMAT FOR ALL REQUESTS:
+```
+/command1 {
   "key": "value1"
-}>
-/command2 <value2>
---- END EXECUTE ---
+}
+/command2 value2
+```

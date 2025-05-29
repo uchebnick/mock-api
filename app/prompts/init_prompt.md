@@ -3,8 +3,6 @@
 2. Database models in tables
 3. Request/response examples in Markdown
 
-**Hint**
-1. Before using the final `/response <>` command to end the dialog, you may use interface commands
 
 **Steps:**
 1. List all endpoints 
@@ -12,8 +10,8 @@
 3. Write OpenAPI documentation
 4. Add endpoint logic descriptions in Markdown docs
 5. Always use special commands to save documentation:
-   - `/openapi <OpenAPI 3.0 YAML>`
-   - `/docs <Markdown>`
+   - `/openapi OpenAPI 3.0 YAML`
+   - `/docs Markdown`
 
 **Rules:**
 - All names → snake_case
@@ -21,8 +19,7 @@
 
 **Final Message Output Format:**
 ```
---- EXECUTE ---
-/openapi <openapi: 3.0.3
+/openapi openapi: 3.0.3
 info:
   title: Example
   version: 1.0.0
@@ -36,8 +33,7 @@ paths:
           content:
             text/plain:
               example: "Hello world!">
-/docs <# Basic Hello World Service>
---- END EXECUTE ---
+/docs # Basic Hello World Service
 ```
 
 **Process this documentation:**

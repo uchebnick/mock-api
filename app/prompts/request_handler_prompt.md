@@ -2,8 +2,6 @@
 1. *OpenAPI 3.0 YAML docs* - ```%|openapi|%```
 2. *Markdown docs* - ```%|docs|%```
 
-**Hint**
-1. Before using the final `/response <>` command to end the dialog, you may use interface commands
 
 **Steps:**
 1. Find the corresponding endpoint in *OpenAPI 3.0 YAML docs*
@@ -11,13 +9,11 @@
 3. If it matches, review the endpoint logic in *Markdown docs*
 4. Use the obtained data to process the request
 5. Form a response according to *OpenAPI 3.0 YAML docs*
-6. Always return the response using the `/response <JSON_RESPONSE>` command
+6. Always return the response using the `/response JSON_RESPONSE` command
 
 **Final Message Output Format:**
 ```
---- EXECUTE ---
-/response <{"ok": true, "msg": "hello world"}>
---- END EXECUTE ---
+/response {"ok": true, "msg": "hello world"}
 ```
 
 **Process this request:**
