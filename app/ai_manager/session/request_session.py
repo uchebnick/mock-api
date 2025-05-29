@@ -9,8 +9,10 @@ import re
 import json
 
 class RequestSession(BaseSession):
-    def __init__(self, ai_docs: str, openapi_docs: str, request: str, llm_client: AIBaseClient = Depends(get_ai_client), app_config: AppConfig = Depends(get_app_config)):
+    def __init__(self, ai_docs: str, openapi_docs: str, request: str):
         init_session_prompt = RequestPrompt(ai_docs, openapi_docs, request).get_prompt()
+        llm_client = get_ai_client()
+        app_config = get_app_config()
         super().__init__(init_session_prompt, llm_client, app_config)
 
     def _get_response(self, msg: str) -> str | None:

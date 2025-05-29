@@ -4,10 +4,9 @@ from app.config.ai_config import get_ai_config, AIConfig
 from .prompt_composer import PromptComposer
 
 class InitPrompt:
-    def __init__(self, user_docs: str, max_steps: int = 5, app_config: AppConfig = Depends(get_app_config), ai_config: AIConfig = Depends(get_ai_config)):
-
-        self.app_config = app_config
-        self.ai_config = ai_config
+    def __init__(self, user_docs: str, max_steps: int = 5):
+        self.app_config = get_app_config()
+        self.ai_config = get_ai_config()
         self.user_docs = user_docs
         self.max_steps = max_steps
 

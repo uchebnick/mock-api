@@ -7,7 +7,7 @@ import re
 logger = logging.getLogger("ai_manager.session")
 
 class BaseSession:
-    def __init__(self, init_session_prompt: str, llm_client: AIBaseClient = Depends(get_ai_client), app_config: AppConfig = Depends(get_app_config)):
+    def __init__(self, init_session_prompt: str, llm_client: AIBaseClient, app_config: AppConfig):
         self.context = []
         self.llm_client = llm_client
         self.app_config = app_config

@@ -10,8 +10,9 @@ import re
 class InitSession(BaseSession):
     def __init__(self, user_docs: str, max_steps: int = 5):
         init_session_prompt = InitPrompt(user_docs, max_steps=max_steps).get_prompt()
-        super().__init__(init_session_prompt)
-
+        llm_client = get_ai_client()
+        app_config = get_app_config()
+        super().__init__(init_session_prompt, llm_client, app_config)
 
     def _get_openapi(self, msg: str) -> str | None:
         match = re.search(r'/openapi %\|(.*?)\|%', msg, re.DOTALL)
