@@ -14,14 +14,14 @@ class InitSession(BaseSession):
         super().__init__(init_session_prompt, llm_client, app_config)
 
     def _get_openapi(self, msg: str) -> str | None:
-        match = re.search(r'/openapi <(.*?)>', msg, re.DOTALL)
+        match = re.search(r"/openapi\s([^/]*?)(?=\s*(?:/|$))", msg, re.DOTALL)
 
         if match:
             return match.group(1).strip()
         return None
 
     def _get_docs(self, msg: str) -> str | None:
-        match = re.search(r'/docs <(.*?)>', msg, re.DOTALL)
+        match = re.search(r"/docs\s([^/]*?)(?=\s*(?:/|$))", msg, re.DOTALL)
 
         if match:
             return match.group(1).strip()

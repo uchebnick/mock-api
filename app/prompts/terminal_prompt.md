@@ -4,8 +4,7 @@
 
 #### Processing Rules:
 1. **Command Extraction**  
-   - Text between `<` and `>` is executed as bash command  
-   - Example: `/terminal.execute_command <ls -l>` → executes `ls -l`
+   - Example: `/terminal.execute_command ls -l` → executes `ls -l`
 
 2. **Security:**
    - Automatic blocking of:

@@ -7,7 +7,7 @@
    - Resets storage to empty state
 
 2. **Add Text**  
-   `/text_storage.add_text <TEXT_CONTENT>`  
+   `/text_storage.add_text TEXT_CONTENT`  
    - Appends content with automatic newline
    - Supports multiline text
 
