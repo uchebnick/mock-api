@@ -5,10 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="76c99382-e2ee-42fd-9c2b-c4146051c1e1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/app/ai_manager/prompts/prompt_composer.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/ai_manager/prompts/prompt_composer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/ai_manager/service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/ai_manager/service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/ai_manager/utils/prompt_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/ai_manager/utils/prompt_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/config/ai_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/config/ai_config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/prompts/db_prompt.md" beforeDir="false" afterPath="$PROJECT_DIR$/app/prompts/db_prompt.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/prompts/init_prompt.md" beforeDir="false" afterPath="$PROJECT_DIR$/app/prompts/init_prompt.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/prompts/sys_prompt.md" beforeDir="false" afterPath="$PROJECT_DIR$/app/prompts/sys_prompt.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/prompts/terminal_prompt.md" beforeDir="false" afterPath="$PROJECT_DIR$/app/prompts/terminal_prompt.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/prompts/text_storage_prompt.md" beforeDir="false" afterPath="$PROJECT_DIR$/app/prompts/text_storage_prompt.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +49,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "#6 on dev",
+    "git-widget-placeholder": "dev",
     "last_opened_file_path": "/home/uchebnick/projects/pythonProject4"
   }
 }]]></component>
