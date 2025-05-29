@@ -58,22 +58,18 @@ async def process_request(
         return {"error": f"Внутренняя ошибка сервера: {str(e)}"}
 
 @app.get("/set_docs")
-async def set_docs(
-    request: Request):
+async def set_docs(user_docs: str):
     try:
-        data = await request.json()
-        user_docs = data.get("user_docs")
-        
         if not user_docs:
             logger.error("Не получены user_docs в запросе")
             return {"error": "Необходимо предоставить user_docs"}
             
-        await get_ai_service(user_docs)
+        service = await get_ai_service(user_docs=user_docs)
         logger.info("Документы успешно установлены")
         
         return {"status": "success", "message": "Документы успешно установлены"}
         
-    except Exception as e:
+    except ValueError as e:
         logger.error(f"Ошибка при установке документов: {str(e)}")
         return {"error": f"Ошибка при установке документов: {str(e)}"}
 

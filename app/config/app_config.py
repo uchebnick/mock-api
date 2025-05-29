@@ -7,17 +7,29 @@ from functools import lru_cache
 class SystemPromptConfig(BaseModel):
     max_steps: int = 10
 
+    class Config:
+        extra = "allow"
+
 
 class TerminalPromptConfig(BaseModel):
     enabled: bool = False
+
+    class Config:
+        extra = "allow"
 
 
 class DBPromptConfig(BaseModel):
     enabled: bool = False
 
+    class Config:
+        extra = "allow"
+
 
 class TextStoragePromptConfig(BaseModel):
     enabled: bool = False
+
+    class Config:
+        extra = "allow"
 
 
 class PromptsConfig(BaseModel):
@@ -26,12 +38,16 @@ class PromptsConfig(BaseModel):
     db: DBPromptConfig = DBPromptConfig()
     text_storage: TextStoragePromptConfig = TextStoragePromptConfig()
 
+    class Config:
+        extra = "allow"
+
 
 class AppConfig(BaseAppSettings):
     prompts: PromptsConfig = PromptsConfig()
     
     class Config:
         env_prefix = "APP_"
+        extra = "allow"
 
     @property
     def max_steps(self) -> int:

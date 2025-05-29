@@ -6,9 +6,9 @@ from .prompt_composer import PromptComposer
 
 
 class RequestPrompt:
-    def __init__(self, ai_docs: str, openapi_docs: str,  str_request: str, app_config: AppConfig = Depends(get_app_config), ai_config: AIConfig = Depends(get_ai_config)):
-        self.app_config = app_config
-        self.ai_config = ai_config
+    def __init__(self, ai_docs: str, openapi_docs: str, str_request: str):
+        self.app_config = get_app_config()
+        self.ai_config = get_ai_config()
         self.str_request = str_request
         self.ai_docs = ai_docs
         self.openapi_docs = openapi_docs

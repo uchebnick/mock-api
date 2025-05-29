@@ -6,7 +6,7 @@ from typing import Optional
 
 
 class AIService:
-    def __init__(self, user_docs: str, app_config: AppConfig = Depends(get_app_config)):
+    def __init__(self, user_docs: str, app_config: AppConfig):
         max_steps = app_config.max_steps()
         docs, openapi = InitSession(user_docs, max_steps=max_steps).start()
 
@@ -24,7 +24,7 @@ _ai_service_instance: Optional['AIService'] = None
 
 async def get_ai_service(user_docs: str = None, app_config: AppConfig = Depends(get_app_config)) -> AIService:
     global _ai_service_instance
-    if _ai_service_instance is None:
-
-        _ai_service_instance = AIService(user_docs, app_config=app_config)
+    if _ai_service_instance is None or user_docs is not None:
+        config = await get_app_config()
+        _ai_service_instance = AIService(user_docs=user_docs, app_config=config)
     return _ai_service_instance
