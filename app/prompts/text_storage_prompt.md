@@ -5,10 +5,9 @@
 1. **Clear Storage**  
    `/text_storage.clear`  
    - Resets storage to empty state
-   - Response: `{"status": "success", "message": "Storage cleared"}`
 
 2. **Add Text**  
-   `/text_storage.add_text %|TEXT_CONTENT|%`  
+   `/text_storage.add_text <TEXT_CONTENT>`  
    - Appends content with automatic newline
    - Supports multiline text
 
