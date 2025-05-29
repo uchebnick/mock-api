@@ -5,20 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="76c99382-e2ee-42fd-9c2b-c4146051c1e1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/ai_manager/prompts/request_prompt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/ai_manager/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/ai_manager/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/ai_manager/prompts/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/ai_manager/prompts/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/ai_manager/prompts/init_prompt.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/ai_manager/prompts/init_prompt.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/ai_manager/prompts/prompt_composer.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/ai_manager/prompts/prompt_composer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/ai_manager/prompts/session_prompt.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/ai_manager/service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/ai_manager/service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/ai_manager/session.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/ai_manager/utils/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/ai_manager/utils/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/ai_manager/utils/prompt_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/ai_manager/utils/prompt_utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/config/ai_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/config/ai_config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/config/app_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/config/app_config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/configs/ai_config.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/configs/config.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,13 +45,13 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/uchebnick/projects/pythonProject4&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "#6 on dev",
+    "last_opened_file_path": "/home/uchebnick/projects/pythonProject4"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/configs" />

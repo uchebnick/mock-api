@@ -4,14 +4,6 @@ import logging
 
 logger = logging.getLogger("ai_manager.utils")
 
-def replace_placeholders(self, template: str, context: Dict[str, Any], pattern: str = r'\{\{(\w+)\}\}') -> str:
-    """Replace placeholders with actual values"""
-    compiled_pattern = self._compile_pattern(pattern)
-    return compiled_pattern.sub(
-        lambda m: str(context.get(m.group(1), "")),
-        template
-    )
-
 def read_file(path: str) -> str:
     try:
         with open(path, "r") as f:

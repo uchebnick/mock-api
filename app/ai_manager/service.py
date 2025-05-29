@@ -22,9 +22,9 @@ class AIService:
 _ai_service_instance: Optional['AIService'] = None
 
 
-async def get_ai_service(user_docs: str = None, app_config: AppConfig = Depends(get_app_config)) -> AIService:
+async def get_ai_service(user_docs: str = None) -> AIService:
     global _ai_service_instance
     if _ai_service_instance is None or user_docs is not None:
-        config = await get_app_config()
+        config = get_app_config()
         _ai_service_instance = AIService(user_docs=user_docs, app_config=config)
     return _ai_service_instance
