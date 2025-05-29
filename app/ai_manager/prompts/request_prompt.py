@@ -14,11 +14,11 @@ class RequestPrompt:
         self.openapi_docs = openapi_docs
 
         component_paths = ["app/docs/sys_prompt.md"]
-        if self.app_config.use_terminal():
+        if self.app_config.use_terminal:
             component_paths.append("app/docs/terminal_prompt.md")
-        if self.app_config.use_db():
+        if self.app_config.use_db:
             component_paths.append("app/docs/db_prompt.md")
-        if self.app_config.use_text_storage():
+        if self.app_config.use_text_storage:
             component_paths.append("app/docs/text_storage_prompt.md")
         component_paths.append("app/docs/session_prompt.md")
 

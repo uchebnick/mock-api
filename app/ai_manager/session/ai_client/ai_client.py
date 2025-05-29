@@ -40,6 +40,8 @@ class OllamaClient(AIBaseClient):
             model=self.config.model,
             messages=[{"role": "user", "content": message}]
         )
+        print(response['message']['content'])
+
         return response['message']['content']
 
 class GeminiClient(AIBaseClient):
@@ -74,12 +76,12 @@ CLIENTS = {
     "claude": ClaudeClient,
 }
 
-def get_ai_client(config: AIConfig = Depends(get_ai_config)) -> AIBaseClient:
+def get_ai_client():
+    config = get_ai_config()
     client_class = CLIENTS.get(config.ai_type)
     if not client_class:
-        logger.critical(f"Unknown AI type: {config.ai_type}")
-        raise ValueError(f"Unknown AI type: {config.ai_type}")
+        raise ValueError(f"Unsupported AI type: {config.ai_type}")
     return client_class(config)
 
-def ai_send_message(message: str, client: AIBaseClient = Depends(get_ai_client)) -> str:
+def ai_send_message(message: str, client: AIBaseClient) -> str:
     return client.send_message(message)
