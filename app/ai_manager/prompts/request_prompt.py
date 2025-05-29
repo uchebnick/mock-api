@@ -13,14 +13,14 @@ class RequestPrompt:
         self.ai_docs = ai_docs
         self.openapi_docs = openapi_docs
 
-        component_paths = ["app/docs/sys_prompt.md"]
+        component_paths = ["app/prompts/sys_prompt.md"]
         if self.app_config.use_terminal:
-            component_paths.append("app/docs/terminal_prompt.md")
+            component_paths.append("app/prompts/terminal_prompt.md")
         if self.app_config.use_db:
-            component_paths.append("app/docs/db_prompt.md")
+            component_paths.append("app/prompts/db_prompt.md")
         if self.app_config.use_text_storage:
-            component_paths.append("app/docs/text_storage_prompt.md")
-        component_paths.append("app/docs/session_prompt.md")
+            component_paths.append("app/prompts/text_storage_prompt.md")
+        component_paths.append("app/prompts/request_handler_prompt.md")
 
 
         context = {

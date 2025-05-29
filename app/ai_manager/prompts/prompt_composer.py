@@ -31,13 +31,13 @@ class PromptComposer:
             return re.compile(pattern)
         except re.error as e:
             logger.error(f"Ошибка компиляции регулярного выражения: {e}")
-            return re.compile(r'\{\{(\w+)\}\}')
+            return re.compile(r'%\|(.*?)\|%')
 
-    def replace_placeholders(self, template: str, context: Dict[str, Any], pattern: str = r'\{\{(\w+)\}\}') -> str:
+    def replace_placeholders(self, template: str, context: Dict[str, Any], pattern: str = r'%\|(.*?)\|%') -> str:
         """Replace placeholders with actual values"""
         compiled_pattern = self._compile_pattern(pattern)
         return compiled_pattern.sub(
-            lambda m: str(context.get(m.group(1), "")),
+            lambda m: str(context.get(m.group(1), f"%|{m.group(1)}|%")),
             template
         )
 
