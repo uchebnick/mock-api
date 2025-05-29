@@ -16,7 +16,7 @@ class RequestSession(BaseSession):
         super().__init__(init_session_prompt, llm_client, app_config)
 
     def _get_response(self, msg: str) -> str | None:
-        match = re.search(r'/response %\|(.*?)\|%', msg, re.DOTALL)
+        match = re.search(r'/response <(.*?)>', msg, re.DOTALL)
         if match:
             return match.group(1).strip()
         return None

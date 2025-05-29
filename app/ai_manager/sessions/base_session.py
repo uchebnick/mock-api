@@ -36,7 +36,7 @@ class BaseSession:
         results = []
         
         # /interface.func %|param|% or /interface.func
-        pattern = r'/(\w+)\.(\w+)(?:\s+%\|\s*([\s\S]*?)\s*\|%)?'
+        pattern = r'/(\w+)\.(\w+)(?:\s+<\s*([\s\S]*?)\s*>)?'
         matches = re.finditer(pattern, msg)
         
         for match in matches:
