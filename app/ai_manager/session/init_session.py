@@ -1,7 +1,7 @@
 from fastapi import Request
 from ..prompts import InitPrompt
 from fastapi import Depends
-from .ai_client import AIBaseClient, get_ai_client
+from .ai_client.ai_client import AIBaseClient, get_ai_client
 from ...config.app_config import AppConfig, get_app_config
 from .base_session import BaseSession
 import logging
