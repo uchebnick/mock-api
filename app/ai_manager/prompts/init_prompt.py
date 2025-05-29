@@ -10,14 +10,15 @@ class InitPrompt:
         self.user_docs = user_docs
         self.max_steps = max_steps
 
-        component_paths = ["app/docs/sys_prompt.md"]
+        component_paths = ["app/prompts/sys_prompt.md"]
+        print(self.app_config.use_terminal)
         if self.app_config.use_terminal:
-            component_paths.append("app/docs/terminal_prompt.md")
+            component_paths.append("app/prompts/terminal_prompt.md")
         if self.app_config.use_db:
-            component_paths.append("app/docs/db_prompt.md")
+            component_paths.append("app/prompts/db_prompt.md")
         if self.app_config.use_text_storage:
-            component_paths.append("app/docs/text_storage_prompt.md")
-        component_paths.append("app/docs/init_prompt.md")
+            component_paths.append("app/prompts/text_storage_prompt.md")
+        component_paths.append("app/prompts/init_prompt.md")
 
         context = {
             "user_docs": self.user_docs,

@@ -5,9 +5,10 @@ from functools import lru_cache
 
 
 class SystemPromptConfig(BaseModel):
-    max_steps: int = 10
+    max_steps: int = 1
 
     class Config:
+        env_prefix = "SYSTEM_"
         extra = "allow"
 
 
@@ -15,6 +16,7 @@ class TerminalPromptConfig(BaseModel):
     enabled: bool = False
 
     class Config:
+        env_prefix = "TERMINAL_"
         extra = "allow"
 
 
@@ -22,6 +24,7 @@ class DBPromptConfig(BaseModel):
     enabled: bool = False
 
     class Config:
+        env_prefix = "DB_"
         extra = "allow"
 
 
@@ -29,6 +32,7 @@ class TextStoragePromptConfig(BaseModel):
     enabled: bool = False
 
     class Config:
+        env_prefix = "TEXT_STORAGE_"
         extra = "allow"
 
 
@@ -39,6 +43,7 @@ class PromptsConfig(BaseModel):
     text_storage: TextStoragePromptConfig = TextStoragePromptConfig()
 
     class Config:
+        env_prefix = "PROMPTS_"
         extra = "allow"
 
 

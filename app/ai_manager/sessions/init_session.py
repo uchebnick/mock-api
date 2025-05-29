@@ -2,9 +2,8 @@ from fastapi import Request
 from ..prompts import InitPrompt
 from fastapi import Depends
 from .ai_client.ai_client import AIBaseClient, get_ai_client
-from ...config.app_config import AppConfig, get_app_config
+from app.config.app_config import AppConfig, get_app_config
 from .base_session import BaseSession
-import logging
 import re
 
 class InitSession(BaseSession):
@@ -29,11 +28,11 @@ class InitSession(BaseSession):
         return None
 
     def _write_openapi(self, openapi_docs: str):
-        with open('app/prompts/openapi_docs.json', 'w', encoding='utf-8') as f:
+        with open('app/docs/openapi_docs.json', 'w', encoding='utf-8') as f:
             f.write(openapi_docs)
 
     def _write_docs(self, ai_docs: str):
-        with open('app/prompts/docs.md', 'w', encoding='utf-8') as f:
+        with open('app/docs/docs.md', 'w', encoding='utf-8') as f:
             f.write(ai_docs)
 
     def start(self) -> None:

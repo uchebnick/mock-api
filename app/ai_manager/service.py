@@ -1,4 +1,4 @@
-from .session import InitSession, RequestSession
+from .sessions import InitSession, RequestSession
 from ..config.app_config import get_app_config, AppConfig
 from fastapi import Depends, Request
 from .utils.utils import convert_request_to_text

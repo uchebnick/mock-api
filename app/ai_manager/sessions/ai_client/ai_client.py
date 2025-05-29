@@ -36,6 +36,7 @@ class OllamaClient(AIBaseClient):
         self.client = ollama
 
     def send_message(self, message: str) -> str:
+        print(message)
         response = self.client.chat(
             model=self.config.model,
             messages=[{"role": "user", "content": message}]
