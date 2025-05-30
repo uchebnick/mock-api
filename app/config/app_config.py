@@ -4,15 +4,15 @@ from .base_settings import BaseAppSettings
 from functools import lru_cache
 
 
-class SystemPromptConfig(BaseModel):
-    max_steps: int = 1
+class SystemPromptConfig(BaseAppSettings):
+    max_steps: int = 2
 
     class Config:
         env_prefix = "SYSTEM_"
         extra = "allow"
 
 
-class TerminalPromptConfig(BaseModel):
+class TerminalPromptConfig(BaseAppSettings):
     enabled: bool = False
 
     class Config:
@@ -20,7 +20,7 @@ class TerminalPromptConfig(BaseModel):
         extra = "allow"
 
 
-class DBPromptConfig(BaseModel):
+class DBPromptConfig(BaseAppSettings):
     enabled: bool = False
 
     class Config:
@@ -28,7 +28,7 @@ class DBPromptConfig(BaseModel):
         extra = "allow"
 
 
-class TextStoragePromptConfig(BaseModel):
+class TextStoragePromptConfig(BaseAppSettings):
     enabled: bool = False
 
     class Config:
@@ -36,7 +36,7 @@ class TextStoragePromptConfig(BaseModel):
         extra = "allow"
 
 
-class PromptsConfig(BaseModel):
+class PromptsConfig(BaseAppSettings):
     system: SystemPromptConfig = SystemPromptConfig()
     terminal: TerminalPromptConfig = TerminalPromptConfig()
     db: DBPromptConfig = DBPromptConfig()
