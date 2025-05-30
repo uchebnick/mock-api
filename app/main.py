@@ -4,7 +4,11 @@ from app.ai_manager.service import AIService, get_ai_service
 from app.config.app_config import get_app_config, AppConfig
 from app.middleware.request_middleware import RequestLoggingMiddleware, ErrorHandlingMiddleware
 from contextlib import asynccontextmanager
+from fastapi.openapi.docs import get_swagger_ui_html
+import yaml
+from fastapi.responses import Response
 import logging
+import aiofiles
 
 # Настройка логирования
 logging.basicConfig(
@@ -21,7 +25,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="mock-api",
-    openapi_url="/docs/docs.json",
+    docs_url="/mock-api",
     lifespan=lifespan
 )
 
@@ -73,3 +77,15 @@ async def set_docs(user_docs: str):
         logger.error(f"Ошибка при установке документов: {str(e)}")
         return {"error": f"Ошибка при установке документов: {str(e)}"}
 
+@app.get("/docs", include_in_schema=False)
+async def openapi():
+    return get_swagger_ui_html(
+        openapi_url="/docs/ai_docs.yaml",
+        title="API Documentation"
+    )
+
+@app.get("/docs/ai_docs.yaml", include_in_schema=False)
+async def get_openapi_yaml():
+    async with aiofiles.open("./app/docs/openapi_docs.yaml", "r") as f:
+        yaml_content = await f.read()
+    return Response(content=yaml_content, media_type="application/x-yaml")
