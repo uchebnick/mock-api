@@ -3,16 +3,16 @@
 
 #### Commands:
 1. **Clear Storage**  
-   `/text_storage.clear`  
+   `command.text_storage.clear`  
    - Resets storage to empty state
 
 2. **Add Text**  
-   `/text_storage.add_text TEXT_CONTENT`  
+   `command.text_storage.add_text <TEXT_CONTENT>`  
    - Appends content with automatic newline
    - Supports multiline text
 
 3. **Retrieve Text**  
-   `/text_storage.get_text`  
+   `command.text_storage.get_text`  
    - Returns full content
 
 #### Processing Rules:

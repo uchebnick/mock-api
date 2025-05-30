@@ -14,21 +14,21 @@ class InitSession(BaseSession):
         super().__init__(init_session_prompt, llm_client, app_config)
 
     def _get_openapi(self, msg: str) -> str | None:
-        match = re.search(r"/openapi\s([^/]*?)(?=\s*(?:/|$))", msg, re.DOTALL)
+        match = re.search(r"command.openapi <(.*?)>", msg, re.DOTALL)
 
         if match:
             return match.group(1).strip()
         return None
 
     def _get_docs(self, msg: str) -> str | None:
-        match = re.search(r"/docs\s([^/]*?)(?=\s*(?:/|$))", msg, re.DOTALL)
+        match = re.search(r"command.markdown <(.*?)>", msg, re.DOTALL)
 
         if match:
             return match.group(1).strip()
         return None
 
     def _write_openapi(self, openapi_docs: str):
-        with open('app/docs/openapi_docs.json', 'w', encoding='utf-8') as f:
+        with open('app/docs/openapi_docs.yaml', 'w', encoding='utf-8') as f:
             f.write(openapi_docs)
 
     def _write_docs(self, ai_docs: str):
