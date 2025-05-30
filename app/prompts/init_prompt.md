@@ -10,8 +10,9 @@
 3. Write OpenAPI documentation
 4. Add endpoint logic descriptions in Markdown docs
 5. Always use special commands to save documentation:
-   - `/openapi OpenAPI 3.0 YAML`
-   - `/docs Markdown`
+   - `command.openapi <OpenAPI 3.0 YAML>`
+   - `command.markdown <Markdown>`
+
 
 **Rules:**
 - All names → snake_case
@@ -19,7 +20,7 @@
 
 **Final Message Output Format:**
 ```
-/openapi openapi: 3.0.3
+command.openapi <openapi: 3.0.3
 info:
   title: Example
   version: 1.0.0
@@ -33,7 +34,7 @@ paths:
           content:
             text/plain:
               example: "Hello world!">
-/docs # Basic Hello World Service
+command.markdown <# Basic Hello World Service>
 ```
 
 **Process this documentation:**

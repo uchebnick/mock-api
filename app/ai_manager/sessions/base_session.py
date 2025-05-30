@@ -35,8 +35,8 @@ class BaseSession:
         commands = self.app_config.enabled_commands
         results = []
         
-        # /interface.func param or /interface.func
-        pattern = r'/(\w+)\.(\w+)(?:\s+([^/]*?))?\s*(?=\s*/|$)'
+        # command.interface.func param or command.interface.func
+        pattern = r'command\.(\w+)\.(\w+)(?:\s+([^/]*?))?\s*(?=\s*/|$)'
         matches = re.finditer(pattern, msg)
         
         for match in matches:

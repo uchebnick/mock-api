@@ -1,10 +1,10 @@
 ### Terminal Gateway Interface
 **Command Syntax:**  
-`/terminal.execute_command %|YOUR_COMMAND|%`
+`/command.terminal.execute_command %|YOUR_COMMAND|%`
 
 #### Processing Rules:
 1. **Command Extraction**  
-   - Example: `/terminal.execute_command ls -l` → executes `ls -l`
+   - Example: `command.terminal.execute_command <ls -l>` → executes `ls -l`
 
 2. **Security:**
    - Automatic blocking of:
