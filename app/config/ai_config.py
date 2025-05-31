@@ -3,6 +3,7 @@ from functools import lru_cache
 from pydantic import Field
 from typing import Optional
 
+
 class AIConfig(BaseSettings):
     AI_TYPE: str = Field(default="")
     AI_MODEL: str = Field(default="")
@@ -26,6 +27,7 @@ class AIConfig(BaseSettings):
     @property
     def base_url(self):
         return self.AI_BASE_URL
+
 
 @lru_cache()
 def get_ai_config() -> AIConfig:

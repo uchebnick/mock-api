@@ -8,7 +8,7 @@ import re
 
 
 class InitSession(BaseSession):
-    def __init__(self, user_docs: str, max_steps: int = 5):
+    def __init__(self, user_docs: str, max_steps: int = 3):
         init_session_prompt = InitPrompt(user_docs, max_steps=max_steps).get_prompt()
         llm_client = get_ai_client()
         app_config = get_app_config()
@@ -36,7 +36,7 @@ class InitSession(BaseSession):
         with open("app/docs/docs.md", "w", encoding="utf-8") as f:
             f.write(ai_docs)
 
-    def start(self) -> None:
+    def start(self) -> tuple[str | None, str | None]:
         message = self.init_session_prompt
         ans = self.llm_client.send_message(message)
         self.context.append({"role": "system", "content": message})
@@ -48,12 +48,17 @@ class InitSession(BaseSession):
         c = 1
         while not (docs or openapi) and c <= max_steps:
             c += 1
-            print(c, 99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999)
+            print(f"Step {c} of {max_steps}")
 
             if docs:
                 message = "Markdown docs has been saved, it remains to save the openapi using command.openapi <OPENAPI_DOCS>"
             if openapi:
                 message = "Openapi docs has been saved, it remains to save the markdown using command.markdown <MARKDOWN_DOCS>"
+
+            # Безопасный вывод контекста
+            for msg in self.context:
+                content = msg.get("content", "")
+                print(f"{msg.get('role', 'unknown')}: {content[:100]}...")
 
             ai_msg = self._next_gen(payload=message)
 
@@ -61,7 +66,10 @@ class InitSession(BaseSession):
                 docs = self._get_docs(ai_msg)
             if not openapi:
                 openapi = self._get_openapi(ai_msg)
-        self._write_docs(docs)
-        self._write_openapi(openapi)
+
+        if docs:
+            self._write_docs(docs)
+        if openapi:
+            self._write_openapi(openapi)
 
         return docs, openapi

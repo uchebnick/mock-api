@@ -31,12 +31,44 @@ class BaseSession:
     def _handle_commands_from_message(self, msg: str):
         commands = self.app_config.enabled_commands
         results = []
+        remaining_text = msg
 
-        # command.interface.func param or command.interface.func
-        pattern = r"command\.(\w+)\.(\w+)(?:\s+([^/]*?))?\s*(?=\s*/|$)"
-        matches = re.finditer(pattern, msg)
+        no_param_pattern = r"command\.(\w+)\.(\w+)(?=\s*/|$)"
+        no_param_matches = list(re.finditer(no_param_pattern, remaining_text))
+        
+        for match in reversed(no_param_matches):
+            start, end = match.span()
+            remaining_text = remaining_text[:start] + remaining_text[end:]
+            
+            interface_name = match.group(1)
+            func_name = match.group(2)
 
-        for match in matches:
+            if interface_name in commands:
+                interface_class = commands[interface_name]
+                interface = interface_class()
+                interface_commands = interface.get_commands()
+
+                if func_name in interface_commands:
+                    try:
+                        result = interface_commands[func_name]()
+                        results.append(
+                            f"Command {interface_name}.{func_name} executed with result: {result}"
+                        )
+                    except Exception as e:
+                        results.append(
+                            f"Error executing {interface_name}.{func_name}: {str(e)}"
+                        )
+                else:
+                    results.append(
+                        f"Function {func_name} not found in interface {interface_name}"
+                    )
+            else:
+                results.append(f"Interface {interface_name} not found")
+
+        param_pattern = r"command\.(\w+)\.(\w+)\s+<([^>]+)>"
+        param_matches = re.finditer(param_pattern, remaining_text)
+
+        for match in param_matches:
             interface_name = match.group(1)
             func_name = match.group(2)
             param = match.group(3)
@@ -48,10 +80,7 @@ class BaseSession:
 
                 if func_name in interface_commands:
                     try:
-                        if param is not None:
-                            result = interface_commands[func_name](param)
-                        else:
-                            result = interface_commands[func_name]()
+                        result = interface_commands[func_name](param)
                         results.append(
                             f"Command {interface_name}.{func_name} executed with result: {result}"
                         )

@@ -1,26 +1,65 @@
-# Counter Service API Documentation
+# Simple Messenger API Documentation
 
-## Endpoints
+## Base URL: `http://localhost:5000/api`
 
-### GET /count
-- **Summary**: Retrieve current counter value
-- **Returns**: JSON object containing count
-- **Example Response**:
-  ```json
-  {"count": 42}
-  ```
+### 1. User Registration
 
-### POST /increment
-- **Summary**: Increment counter by 1
-- **Produces**: No request body required
-- **Example Response**:
-  ```json
-  {"count": 43}
-  ```
+**Endpoint:** `POST /register`
 
-## Database Models
+**Request Body (JSON):**
 
-| Table      | Columns             |
-|------------|---------------------|
-| counters   | - id (primary key, integer) |
-|            | - count (integer)
+```json
+{
+  "username": "string",
+  "password": "string"
+}
+```
+
+**Response (Success):**
+
+```json
+{
+  "status": "success",
+  "user_id": "uuid"
+}
+```
+
+**Error Codes:**
+
+- `400`: Invalid data format
+- `409`: Username already taken
+
+### 2. Authentication
+
+**Endpoint:** `POST /login`
+
+**Request Body (JSON):**
+
+```json
+{
+  "username": "string",
+  "password": "string"
+}
+```
+
+**Response (Success):**
+
+```json
+{
+  "token": "jwt_token",
+  "expires_in": 3600
+}
+```
+
+**Error Codes:**
+
+- `401`: Invalid credentials
+
+### 3. Send Message
+
+**Endpoint:** `POST /messages`
+
+**Headers:**
+
+```
+Authorization: Bearer <jwt_token

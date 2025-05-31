@@ -1,48 +1,60 @@
-**Task:** Convert raw documentation into:
-1. OpenAPI 3.0 YAML 
-2. Database models in tables
-3. Request/response examples in Markdown
+# Task: API Initialization
+Initialize core API components including storage, database, and documentation of [user_docs].
 
+## Critical Execution Order
+1. **ALL interface commands** (storage setup, DB configuration, etc.)  
+   MUST be executed BEFORE documentation commands
+   
+2. **Final documentation commands** (termination triggers):  
+   ```
+   command.openapi <YAML_OPENAPI_DOCS>
+   command.markdown <MARKDOWN_DOCS>
+   ```
+   - Must be executed LAST
+   - Dialog terminates automatically upon success
 
-**Steps:**
-1. List all endpoints 
-2. Design request/response models and entities
-3. Write OpenAPI documentation
-4. Add endpoint logic descriptions in Markdown docs
-5. USE command from INTERFACE (if you have such an interface)
-6. Always use special commands to save documentation:
-   - `command.openapi <OpenAPI 3.0 YAML>`
-   - `command.markdown <Markdown>`
+## Mandatory Documentation Commands
+- `command.openapi`: Submit complete OpenAPI spec in YAML format
+- `command.markdown`: Submit full system documentation in Markdown
 
+## Workflow Requirements
+1. Execute ALL preparation commands first:
+   - Storage initialization
+   - Database configuration
+   - System bootstrapping
+   - Any other setup operations
+   
+2. ONLY AFTER successful preparation:
+   Submit both documentation commands:
+   ```
+   command.openapi <your_yaml_here>
+   command.markdown <your_markdown_here>
+   ```
 
-**Rules:**
-- All names → snake_case
+## Termination Rules
+- Dialog ends IMMEDIATELY after successful execution of BOTH documentation commands
+- Documentation becomes available for all subsequent dialogs
 
+## Constraints
+- Standard command format: single parameter per command
+- Parallel execution allowed EXCEPT for documentation commands (must be final step)
 
-**First Message Example:**
-```
-command.openapi <openapi: 3.0.3
-info:
-  title: Example
-  version: 1.0.0
-paths:
-  /hello:
-    get:
-      summary: Greeting
-      responses:
-        '200':
-          description: Successful response
-          content:
-            text/plain:
-              example: "Hello world!">
+### Key Features:
+1. **Explicit Order Enforcement**  
+   - Clear "BEFORE/AFTER" terminology for command sequencing
+   - Documentation commands explicitly marked as FINAL step
 
-```
-**Second Message Example:**
-```
-command.markdown <# Basic Hello World Service>
-```
+2. **Workflow Safeguards**  
+   - Prevents mixed-phase command execution
+   - Ensures system is fully configured before documentation submission
 
-**Process this documentation:**
+## **IMPORTANT**
+   - Make sure to follow the [format]
+   - Parameter of command must be between <>
+   - Openapi and markdown documentation should describe the api by [user_docs]
+   - You must respond only with a functional text
+
+# **Api should perform the functionality according to this raw [user_docs]:**
 ===
 %|user_docs|%
 ===

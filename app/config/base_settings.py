@@ -9,5 +9,5 @@ class BaseAppSettings(BaseSettings):
         env_file_encoding="utf-8",
         extra="allow",
         case_sensitive=True,
-        env_prefix=""
+        env_prefix="",
     )
