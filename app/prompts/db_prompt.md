@@ -12,4 +12,4 @@
      - Transactions (`BEGIN`, `COMMIT`)
      - Schema modifications (`CREATE TABLE`, `ALTER TABLE`)
      - Complex queries (`JOIN`, `WITH RECURSIVE`)
-     - JSON1 extension
+     - JSON extension

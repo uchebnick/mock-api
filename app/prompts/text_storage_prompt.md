@@ -1,10 +1,11 @@
 ### Text Storage Interface
-**Purpose:** Persistent text storage for complex API workflows  
+**Purpose:** Text storage for storing specific data or dynamic configs
 
 #### Commands:
 1. **Clear Storage**  
    `command.text_storage.clear`  
    - Resets storage to empty state
+   - This command has no input parameters.
 
 2. **Add Text**  
    `command.text_storage.add_text <TEXT_CONTENT>`  
@@ -14,6 +15,7 @@
 3. **Retrieve Text**  
    `command.text_storage.get_text`  
    - Returns full content
+   - This command has no input parameters
 
 #### Processing Rules:
 - **Text Encoding:** UTF-8

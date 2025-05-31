@@ -23,17 +23,18 @@ class ChatGPTClient(AIBaseClient):
         super().__init__(config)
         self.client = OpenAI(
             api_key=self.config.token,
-            base_url=self.config.base_url if self.config.base_url else "https://api.openai.com/v1"
+            base_url=(
+                self.config.base_url
+                if self.config.base_url
+                else "https://api.openai.com/v1"
+            ),
         )
 
     def send_message(self, message: str) -> str:
-        print(message)
         try:
             response = self.client.chat.completions.create(
-                model=self.config.model,
-                messages=[{"role": "user", "content": message}]
+                model=self.config.model, messages=[{"role": "user", "content": message}]
             )
-            print(response.choices[0].message.content)
             return response.choices[0].message.content
         except Exception as e:
             logger.error(f"Ошибка при отправке сообщения в OpenAI: {str(e)}")
@@ -44,6 +45,7 @@ class OllamaClient(AIBaseClient):
     def __init__(self, config: AIConfig = None):
         super().__init__(config)
         import ollama
+
         self.client = ollama
         if self.config.base_url:
             self.client.set_host(self.config.base_url)
@@ -53,8 +55,7 @@ class OllamaClient(AIBaseClient):
     def send_message(self, message: str) -> str:
         try:
             response = self.client.chat(
-                model=self.config.model, 
-                messages=[{"role": "user", "content": message}]
+                model=self.config.model, messages=[{"role": "user", "content": message}]
             )
             return response["message"]["content"]
         except Exception as e:
@@ -66,11 +67,15 @@ class GeminiClient(AIBaseClient):
     def __init__(self, config: AIConfig = None):
         super().__init__(config)
         import google.generativeai as genai
+
         genai.configure(api_key=self.config.token)
         if self.config.base_url:
             genai.configure(transport="rest", api_endpoint=self.config.base_url)
         else:
-            genai.configure(transport="rest", api_endpoint="https://generativelanguage.googleapis.com")
+            genai.configure(
+                transport="rest",
+                api_endpoint="https://generativelanguage.googleapis.com",
+            )
         self.client = genai.GenerativeModel(self.config.model)
 
     def send_message(self, message: str) -> str:
@@ -86,9 +91,14 @@ class ClaudeClient(AIBaseClient):
     def __init__(self, config: AIConfig = None):
         super().__init__(config)
         import anthropic
+
         self.client = anthropic.Anthropic(
             api_key=self.config.token,
-            base_url=self.config.base_url if self.config.base_url else "https://api.anthropic.com"
+            base_url=(
+                self.config.base_url
+                if self.config.base_url
+                else "https://api.anthropic.com"
+            ),
         )
 
     def send_message(self, message: str) -> str:

@@ -1,31 +1,163 @@
-openapi: 3.0.3
+openapi: 3.0.0
 info:
-  title: Counter Service
+  title: Simple Messenger API
   version: 1.0.0
+servers:
+  - url: http://localhost:5000/api
+    description: Development server
 paths:
-  /count:
-    get:
-      summary: Get current count
-      responses:
-        '200':
-          description: Current count
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-  /increment:
+  /register:
     post:
-      summary: Increment count
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
       responses:
         '200':
-          description: Count incremented
+          description: Successful registration
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  count:
+                  status:
+                    type: string
+                  user_id:
+                    type: string
+        '400':
+          description: Bad request
+        '409':
+          description: Username already exists
+  /login:
+    post:
+      summary: Authenticate user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                  expires_in:
                     type: integer
+        '401':
+          description: Unauthorized
+  /messages:
+    post:
+      summary: Send a message
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                recipient_id:
+                  type: string
+                text:
+                  type: string
+      responses:
+        '200':
+          description: Successful message sending
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message_id:
+                    type: string
+                  timestamp:
+                    type: string
+        '403':
+          description: Forbidden
+        '404':
+          description: User not found
+    get:
+      summary: Get messages
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: Maximum number of messages
+        - in: query
+          name: offset
+          schema:
+            type: integer
+          description: Message offset
+      responses:
+        '200':
+          description: Successful retrieval of messages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    sender:
+                      type: string
+                    text:
+                      type: string
+                    timestamp:
+                      type: string
+  /users/{user_id}:
+    get:
+      summary: Get user information
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: string
+          description: The user ID
+      responses:
+        '200':
+          description: Successful retrieval of user information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: string
+                  username:
+                    type: string
+                  created_at:
+                    type: string
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -3,7 +3,8 @@ from typing import Tuple
 
 
 class TerminalInterface:
-    def execute_command(self, command: str, shell: bool = True) -> Tuple[str, str]:
+    @classmethod
+    def execute_command(cls, command: str, shell: bool = True) -> Tuple[str, str]:
         try:
             result = subprocess.run(
                 command, shell=shell, capture_output=True, text=True
@@ -12,6 +13,7 @@ class TerminalInterface:
         except Exception as e:
             return "", f"Terminal error: {e}"
 
-    def get_commands(self):
-        commands = {"execute_command": self.execute_command}
+    @classmethod
+    def get_commands(cls):
+        commands = {"execute_command": cls.execute_command}
         return commands
