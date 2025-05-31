@@ -1,15 +1,13 @@
-from pydantic_settings import BaseSettings
-from functools import lru_cache
+from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import Field, BaseModel
+from typing import Any, Dict
 
 
 class BaseAppSettings(BaseSettings):
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
-        case_sensitive = True
-        extra = "allow"
-
-
-@lru_cache()
-def get_settings():
-    return BaseAppSettings() 
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="allow",
+        case_sensitive=True,
+        env_prefix=""
+    )

@@ -6,6 +6,7 @@ import re
 
 logger = logging.getLogger("ai_manager.docs.composer")
 
+
 class PromptComposer:
     def __init__(self, component_paths: List[str], context: Dict):
         self.component_paths = component_paths
@@ -31,14 +32,15 @@ class PromptComposer:
             return re.compile(pattern)
         except re.error as e:
             logger.error(f"Ошибка компиляции регулярного выражения: {e}")
-            return re.compile(r'%\|(.*?)\|%')
+            return re.compile(r"%\|(.*?)\|%")
 
-    def replace_placeholders(self, template: str, context: Dict[str, Any], pattern: str = r'%\|(.*?)\|%') -> str:
+    def replace_placeholders(
+        self, template: str, context: Dict[str, Any], pattern: str = r"%\|(.*?)\|%"
+    ) -> str:
         """Replace placeholders with actual values"""
         compiled_pattern = self._compile_pattern(pattern)
         return compiled_pattern.sub(
-            lambda m: str(context.get(m.group(1), f"%|{m.group(1)}|%")),
-            template
+            lambda m: str(context.get(m.group(1), f"%|{m.group(1)}|%")), template
         )
 
     def build_prompt(self) -> str:

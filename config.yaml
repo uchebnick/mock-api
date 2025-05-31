@@ -1,0 +1,13 @@
+# App Configuration
+terminal:
+  enabled: false
+
+database:
+  enabled: false
+
+text_storage:
+  enabled: true
+
+system:
+  max_steps: 5
+

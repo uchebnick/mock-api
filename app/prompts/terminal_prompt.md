@@ -1,6 +1,6 @@
 ### Terminal Gateway Interface
 **Command Syntax:**  
-`/command.terminal.execute_command %|YOUR_COMMAND|%`
+`command.terminal.execute_command <YOUR_COMMAND>`
 
 #### Processing Rules:
 1. **Command Extraction**  

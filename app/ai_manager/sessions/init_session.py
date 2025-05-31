@@ -1,10 +1,11 @@
 from fastapi import Request
 from ..prompts import InitPrompt
 from fastapi import Depends
-from .ai_client.ai_client import AIBaseClient, get_ai_client
-from app.config.app_config import AppConfig, get_app_config
+from .ai_client.ai_client import get_ai_client
+from app.config.app_config import get_app_config
 from .base_session import BaseSession
 import re
+
 
 class InitSession(BaseSession):
     def __init__(self, user_docs: str, max_steps: int = 5):
@@ -28,24 +29,18 @@ class InitSession(BaseSession):
         return None
 
     def _write_openapi(self, openapi_docs: str):
-        with open('app/docs/openapi_docs.yaml', 'w', encoding='utf-8') as f:
+        with open("app/docs/openapi_docs.yaml", "w", encoding="utf-8") as f:
             f.write(openapi_docs)
 
     def _write_docs(self, ai_docs: str):
-        with open('app/docs/docs.md', 'w', encoding='utf-8') as f:
+        with open("app/docs/docs.md", "w", encoding="utf-8") as f:
             f.write(ai_docs)
 
     def start(self) -> None:
         message = self.init_session_prompt
         ans = self.llm_client.send_message(message)
-        self.context.append({
-            "role": "system",
-            "content": message
-        })
-        self.context.append({
-            "role": "assistant",
-            "content": ans
-        })
+        self.context.append({"role": "system", "content": message})
+        self.context.append({"role": "assistant", "content": ans})
 
         docs = self._get_docs(ans)
         openapi = self._get_openapi(ans)
@@ -53,7 +48,15 @@ class InitSession(BaseSession):
         c = 1
         while not (docs or openapi) and c <= max_steps:
             c += 1
-            ai_msg = self._next_gen()
+            print(c, 99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999)
+
+            if docs:
+                message = "Markdown docs has been saved, it remains to save the openapi using command.openapi <OPENAPI_DOCS>"
+            if openapi:
+                message = "Openapi docs has been saved, it remains to save the markdown using command.markdown <MARKDOWN_DOCS>"
+
+            ai_msg = self._next_gen(payload=message)
+
             if not docs:
                 docs = self._get_docs(ai_msg)
             if not openapi:
@@ -62,4 +65,3 @@ class InitSession(BaseSession):
         self._write_openapi(openapi)
 
         return docs, openapi
-

@@ -8,6 +8,7 @@ import logging
 import re
 import json
 
+
 class RequestSession(BaseSession):
     def __init__(self, ai_docs: str, openapi_docs: str, request: str):
         init_session_prompt = RequestPrompt(ai_docs, openapi_docs, request).get_prompt()
@@ -32,14 +33,8 @@ class RequestSession(BaseSession):
     def start(self) -> dict | None:
         message = self.init_session_prompt
         ans = self.llm_client.send_message(message)
-        self.context.append({
-            "role": "system",
-            "content": message
-        })
-        self.context.append({
-            "role": "assistant",
-            "content": ans
-        })
+        self.context.append({"role": "system", "content": message})
+        self.context.append({"role": "assistant", "content": ans})
 
         response = self._get_response(ans)
         max_steps = self.app_config.max_steps
@@ -58,20 +53,16 @@ class RequestSession(BaseSession):
 
             error_message = f"Не удалось преобразовать ответ в JSON. Попытка {current_step} из {max_steps}"
             logging.warning(error_message)
-            
+
             message = f"json loads error: {error_message}"
             ans = self.llm_client.send_message(message)
-            self.context.append({
-                "role": "system",
-                "content": message
-            })
-            self.context.append({
-                "role": "assistant",
-                "content": ans
-            })
-            
+            self.context.append({"role": "system", "content": message})
+            self.context.append({"role": "assistant", "content": ans})
+
             response = self._get_response(ans)
             current_step += 1
 
-        logging.error(f"Достигнуто максимальное количество попыток ({max_steps}). Не удалось получить корректный JSON-ответ.")
+        logging.error(
+            f"Достигнуто максимальное количество попыток ({max_steps}). Не удалось получить корректный JSON-ответ."
+        )
         return None
