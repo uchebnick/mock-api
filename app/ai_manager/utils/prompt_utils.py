@@ -4,6 +4,7 @@ import logging
 
 logger = logging.getLogger("ai_manager.utils")
 
+
 def read_file(path: str) -> str:
     try:
         with open(path, "r") as f:

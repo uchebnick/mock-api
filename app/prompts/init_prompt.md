@@ -9,16 +9,17 @@
 2. Design request/response models and entities
 3. Write OpenAPI documentation
 4. Add endpoint logic descriptions in Markdown docs
-5. Always use special commands to save documentation:
+5. USE command from INTERFACE (if you have such an interface)
+6. Always use special commands to save documentation:
    - `command.openapi <OpenAPI 3.0 YAML>`
    - `command.markdown <Markdown>`
 
 
 **Rules:**
 - All names → snake_case
-- If information is missing → create a minimal example
 
-**Final Message Output Format:**
+
+**First Message Example:**
 ```
 command.openapi <openapi: 3.0.3
 info:
@@ -34,6 +35,10 @@ paths:
           content:
             text/plain:
               example: "Hello world!">
+
+```
+**Second Message Example:**
+```
 command.markdown <# Basic Hello World Service>
 ```
 

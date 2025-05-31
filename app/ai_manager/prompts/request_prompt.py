@@ -4,7 +4,6 @@ from app.config.ai_config import get_ai_config, AIConfig
 from .prompt_composer import PromptComposer
 
 
-
 class RequestPrompt:
     def __init__(self, ai_docs: str, openapi_docs: str, str_request: str):
         self.app_config = get_app_config()
@@ -22,11 +21,10 @@ class RequestPrompt:
             component_paths.append("app/prompts/text_storage_prompt.md")
         component_paths.append("app/prompts/request_handler_prompt.md")
 
-
         context = {
             "request": self.str_request,
             "ai_docs": self.ai_docs,
-            "openapi_docs": self.openapi_docs
+            "openapi_docs": self.openapi_docs,
         }
 
         self.composer = PromptComposer(component_paths, context)

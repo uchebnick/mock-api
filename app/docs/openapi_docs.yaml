@@ -1,152 +1,31 @@
 openapi: 3.0.3
 info:
-  title: My Custom API
-  description: Пример кастомной документации Swagger
+  title: Counter Service
   version: 1.0.0
-  contact:
-    name: Ваша поддержка
-    email: support@example.com
-  license:
-    name: MIT
-    url: https://opensource.org/licenses/MIT
-
-servers:
-  - url: http://localhost:8000
-    description: Локальный сервер
-  - url: https://api.example.com
-    description: Продакшен сервер
-
 paths:
-  /users:
+  /count:
     get:
-      summary: Получить список пользователей
-      description: Возвращает список всех зарегистрированных пользователей
-      tags:
-        - Пользователи
+      summary: Get current count
       responses:
         '200':
-          description: Успешный ответ
+          description: Current count
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserListResponse'
-        '500':
-          description: Ошибка сервера
-
+                type: object
+                properties:
+                  count:
+                    type: integer
+  /increment:
     post:
-      summary: Создать нового пользователя
-      tags:
-        - Пользователи
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserCreateRequest'
-      responses:
-        '201':
-          description: Пользователь создан
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserResponse'
-        '400':
-          description: Невалидные данные
-
-  /users/{user_id}:
-    get:
-      summary: Получить пользователя по ID
-      tags:
-        - Пользователи
-      parameters:
-        - name: user_id
-          in: path
-          required: true
-          description: ID пользователя
-          schema:
-            type: integer
-            format: int64
+      summary: Increment count
       responses:
         '200':
-          description: Успешный ответ
+          description: Count incremented
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserResponse'
-        '404':
-          description: Пользователь не найден
-
-components:
-  schemas:
-    User:
-      type: object
-      required:
-        - id
-        - username
-        - email
-      properties:
-        id:
-          type: integer
-          format: int64
-          example: 1
-        username:
-          type: string
-          example: "ivan_ivanov"
-        email:
-          type: string
-          format: email
-          example: "ivan@example.com"
-        created_at:
-          type: string
-          format: date-time
-          example: "2023-01-01T12:00:00Z"
-
-    UserCreateRequest:
-      type: object
-      required:
-        - username
-        - email
-      properties:
-        username:
-          type: string
-          minLength: 3
-          maxLength: 50
-          example: "new_user"
-        email:
-          type: string
-          format: email
-          example: "user@example.com"
-        password:
-          type: string
-          format: password
-          minLength: 8
-          example: "strongpassword123"
-
-    UserResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: true
-        user:
-          $ref: '#/components/schemas/User'
-
-    UserListResponse:
-      type: object
-      properties:
-        count:
-          type: integer
-          example: 10
-        users:
-          type: array
-          items:
-            $ref: '#/components/schemas/User'
-
-  securitySchemes:
-    BearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-
-security:
-  - BearerAuth: []
+                type: object
+                properties:
+                  count:
+                    type: integer

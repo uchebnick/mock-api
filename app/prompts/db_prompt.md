@@ -1,5 +1,6 @@
+# DB Interface
 **Command Syntax:**  
-`/command.db.execute_query <SQLITE_QUERY>`
+`command.db.execute_query <SQLITE_QUERY>`
 
 #### Processing Rules:
 1. **Query Extraction**  

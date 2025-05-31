@@ -19,7 +19,7 @@ class AIService:
         return json_response
 
 
-_ai_service_instance: Optional['AIService'] = None
+_ai_service_instance: Optional["AIService"] = None
 
 
 async def get_ai_service(user_docs: str = None) -> AIService:
